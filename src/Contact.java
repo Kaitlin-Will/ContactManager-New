@@ -12,6 +12,7 @@ public class Contact {
     protected String firstName;
     protected String lastName;
     protected String phoneNumber;
+    protected String infoString;
 
     Input input = new Input();
     FileReader contactReader = new FileReader("data", "contacts.txt", "contacts.log");
@@ -21,30 +22,29 @@ public class Contact {
         this.firstName = firstName;
         this.lastName = lastName;
         this.phoneNumber = phoneNumber;
-        Files.write(contactReader.getFilePath(), Arrays.asList(this.firstName, this.lastName, this.phoneNumber), StandardOpenOption.APPEND);
+        this.infoString = firstName + " " +lastName + " " +phoneNumber;
+
+//        if (Files.notExists()) {
+
+            Files.write(contactReader.getFilePath(), Arrays.asList(this.infoString), StandardOpenOption.APPEND);
+
+//        }
+
+
     }
+
 
     public void displayInfo(){
         System.out.printf("First name: %s%nLast name: %s%nPhone number: %s%n", this.firstName, this.lastName, this.phoneNumber);
     }
 
-    public void addContact(){
-        boolean userResponse = input.yesNo("Do you want to add a contact?");
-        if(userResponse){
-            String userFirst = input.getString("Enter first name");
-            String userLast = input.getString("Enter last name");
-            String userPhone = input.getString("Enter phone number");
-            System.out.printf("First name: %s%nLast name: %s%nPhone number: %s%n", userFirst, userLast, userPhone);
-            boolean anotherResponse = input.yesNo("Is this information correct");
-            if(anotherResponse){
-                Contact c = new Contact(userFirst, userLast, phoneNumber);
-            }
-        }
-    }
+
+
+
 
     //PSVM
     public static void main(String[] args) throws IOException {
-        Contact c1 = new Contact("Will", "Tisdale", "555-867-5309");
+//        Contact c1 = new Contact("Will", "Tisdale", "555-867-5309");
 
 
     }
@@ -76,4 +76,5 @@ public class Contact {
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
+
 }
