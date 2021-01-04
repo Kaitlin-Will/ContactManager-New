@@ -20,7 +20,7 @@ public class Input {
     }
 
     public String getString(){
-        return scanner.next();
+        return scanner.nextLine();
     }
 
     public String getString(String prompt){

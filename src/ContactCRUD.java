@@ -27,6 +27,9 @@ public class ContactCRUD{
         if(userChoice == 2){
             addContact();
         }
+        if(userChoice == 3){
+            findContact();
+        }
     }
 
     public void displayAllContacts(){
@@ -36,6 +39,27 @@ public class ContactCRUD{
         for(String contact:contacts){
             String[] separated = contact.split(" ");
             System.out.printf("%s %-5s| %-10s%n", separated[0], separated[1], separated[2]);
+        }
+    }
+
+    public void findContact(){
+        boolean nameExists = false;
+        System.out.println("Please enter the contact's first and last name:");
+        String userInput = input.getString();
+        List<String> contacts = contactReader.getFileLines();
+        String[] userSeparated = userInput.split(" ");
+        for(String contact:contacts){
+            String[] separated = contact.split(" ");
+            if (userSeparated[0].equals(separated[0]) && userSeparated[1].equals(separated[1])) {
+                nameExists = true;
+                System.out.printf("%s %-5s| %-10s%n", separated[0], separated[1], separated[2]);
+                break;
+            }
+
+        }
+        if(!nameExists){
+            System.out.println("There is no contact by that name, please try again.");
+            findContact();
         }
     }
 
