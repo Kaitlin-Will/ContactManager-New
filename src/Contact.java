@@ -23,34 +23,15 @@ public class Contact {
         this.lastName = lastName;
         this.phoneNumber = phoneNumber;
         this.infoString = firstName + " " +lastName + " " +phoneNumber;
-
-//        if (Files.notExists()) {
-
-            Files.write(contactReader.getFilePath(), Arrays.asList(this.infoString), StandardOpenOption.APPEND);
-
-//        }
-
-
-    }
-
-
-    public void displayInfo(){
-        System.out.printf("First name: %s%nLast name: %s%nPhone number: %s%n", this.firstName, this.lastName, this.phoneNumber);
-    }
-
-
-
-
+        Files.write(contactReader.getFilePath(), Arrays.asList(this.infoString), StandardOpenOption.APPEND);
+        }
 
     //PSVM
     public static void main(String[] args) throws IOException {
-//        Contact c1 = new Contact("Will", "Tisdale", "555-867-5309");
-
 
     }
 
     //Custom Methods
-
 
     //Getters and Setters
     public String getFirstName() {
