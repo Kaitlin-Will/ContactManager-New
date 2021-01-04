@@ -85,6 +85,24 @@ public class ContactCRUD{
         System.out.println("Contact has been deleted");
     }
 
+    public void deleteContact(String first, String last) throws IOException {
+        FileReader contactReader = new FileReader("data", "contacts.txt", "contacts.log", "delete.txt");
+        boolean nameExists = false;
+        Path contactsPath = Paths.get(contactReader.getDirectoryName(), contactReader.getFileName());
+        List<String> contacts = contactReader.getFileLines();
+        List<String> newList = new ArrayList<>();
+        for(String contact:contacts){
+            String[] separated = contact.split(" ");
+            newList.add(contact);
+            if (first.equals(separated[0]) && last.equals(separated[1])) {
+                nameExists = true;
+                newList.remove(contact);
+                continue;
+            }
+        }
+        Files.write(contactsPath, newList);
+    }
+
     public void displayAllContacts() throws IOException {
         FileReader contactReader = new FileReader("data", "contacts.txt", "contacts.log", "delete.txt");
         String name = "Name";
@@ -103,7 +121,7 @@ public class ContactCRUD{
         System.out.println();
     }
 
-    public boolean findContact() throws IOException {
+    public void findContact() throws IOException {
         FileReader contactReader = new FileReader("data", "contacts.txt", "contacts.log", "delete.txt");
         boolean nameExists = false;
         System.out.println("Please enter the contact's first and last name:");
@@ -113,6 +131,27 @@ public class ContactCRUD{
         for(String contact:contacts){
             String[] separated = contact.split(" ");
             if (userSeparated[0].equals(separated[0]) && userSeparated[1].equals(separated[1])) {
+                nameExists = true;
+                System.out.println();
+                System.out.printf("Name: %s %s%nNumber: %s%n", separated[0], separated[1], separated[2]);
+                System.out.println();
+                break;
+            }
+
+        }
+        if(!nameExists){
+            System.out.println("There is no contact by that name, please try again.");
+            findContact();
+        }
+    }
+
+    public boolean findContact(String firstName, String lastName) throws IOException {
+        FileReader contactReader = new FileReader("data", "contacts.txt", "contacts.log", "delete.txt");
+        boolean nameExists = false;
+        List<String> contacts = contactReader.getFileLines();
+        for(String contact:contacts){
+            String[] separated = contact.split(" ");
+            if (firstName.equals(separated[0]) && lastName.equals(separated[1])) {
                 nameExists = true;
                 System.out.println();
                 System.out.printf("Name: %s %s%nNumber: %s%n", separated[0], separated[1], separated[2]);
@@ -133,12 +172,29 @@ public class ContactCRUD{
         if(userResponse){
             String userFirst = input.getString("Enter first name").trim();
             String userLast = input.getString("Enter last name").trim();
-            String userPhone = input.getString("Enter phone number").trim();
-            System.out.printf("First name: %s%nLast name: %s%nPhone number: %s%n", userFirst, userLast, userPhone);
-            boolean anotherResponse = input.yesNo("Is this information correct?");
-            if(anotherResponse){
-                Contact c = new Contact(userFirst, userLast, userPhone);
+            if(findContact(userFirst, userLast)){
+                boolean yesNo = input.yesNo("Contact exists. Do you want to overwrite?");
+                if(yesNo){
+                    deleteContact(userFirst, userLast);
+                    String userPhone = input.getString("Enter phone number").trim();
+                    System.out.printf("First name: %s%nLast name: %s%nPhone number: %s%n", userFirst, userLast, userPhone);
+                    boolean anotherResponse = input.yesNo("Is this information correct?");
+                    if(anotherResponse){
+                        Contact c = new Contact(userFirst, userLast, userPhone);
+                        System.out.println("Contact has been successfully overwritten");
+                    }
+                } else {
+                    displayMenuOptions();
+                }
+            } else {
+                String userPhone = input.getString("Enter phone number").trim();
+                System.out.printf("First name: %s%nLast name: %s%nPhone number: %s%n", userFirst, userLast, userPhone);
+                boolean anotherResponse = input.yesNo("Is this information correct?");
+                if(anotherResponse){
+                    Contact c = new Contact(userFirst, userLast, userPhone);
+                }
             }
+
         }
 
     }
