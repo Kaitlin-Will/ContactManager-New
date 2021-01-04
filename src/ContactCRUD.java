@@ -48,6 +48,8 @@ public class ContactCRUD{
             input.getString();
             if(yesNo){
                 displayMenuOptions();
+            }else if(!yesNo){
+                System.out.println("Exiting now.");
             }
         }
         if(userChoice == 4){
@@ -137,7 +139,6 @@ public class ContactCRUD{
                 System.out.println();
                 break;
             }
-
         }
         if(!nameExists){
             System.out.println("There is no contact by that name, please try again.");
@@ -158,11 +159,6 @@ public class ContactCRUD{
                 System.out.println();
                 return nameExists;
             }
-
-        }
-        if(!nameExists){
-            System.out.println("There is no contact by that name, please try again.");
-            findContact();
         }
         return nameExists;
     }
@@ -176,7 +172,7 @@ public class ContactCRUD{
                 boolean yesNo = input.yesNo("Contact exists. Do you want to overwrite?");
                 if(yesNo){
                     deleteContact(userFirst, userLast);
-                    String userPhone = input.getString("Enter phone number").trim();
+                    String userPhone = getPhoneNumber();
                     System.out.printf("First name: %s%nLast name: %s%nPhone number: %s%n", userFirst, userLast, userPhone);
                     boolean anotherResponse = input.yesNo("Is this information correct?");
                     if(anotherResponse){
@@ -187,7 +183,7 @@ public class ContactCRUD{
                     displayMenuOptions();
                 }
             } else {
-                String userPhone = input.getString("Enter phone number").trim();
+                String userPhone = getPhoneNumber();
                 System.out.printf("First name: %s%nLast name: %s%nPhone number: %s%n", userFirst, userLast, userPhone);
                 boolean anotherResponse = input.yesNo("Is this information correct?");
                 if(anotherResponse){
@@ -198,5 +194,29 @@ public class ContactCRUD{
         }
 
     }
+
+    public String getPhoneNumber(){
+        String userPhoneNumber = input.getString("Enter phone number:").trim();
+        int numOfChars = userPhoneNumber.length();
+        if((userPhoneNumber.contains("-") && numOfChars == 8) || (userPhoneNumber.contains("-") && numOfChars == 12)){
+            return userPhoneNumber;
+        }else if(!userPhoneNumber.contains("-")) {
+            if (numOfChars == 7) {
+                return userPhoneNumber.substring(0, 3) + "-" + userPhoneNumber.substring(3);
+            }
+            if (numOfChars == 10) {
+                return userPhoneNumber.substring(0, 3) + "-" + userPhoneNumber.substring(3, 6) + "-" + userPhoneNumber.substring(6);
+            }
+        }
+        System.out.println("Invalid number.");
+        return getPhoneNumber();
+    }
+
+
+
+
+
+
+
 
 }
