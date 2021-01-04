@@ -1,13 +1,24 @@
 import fileIo.FileReader;
 import util.Input;
 
+import java.io.File;
 import java.io.IOException;
+import java.io.OutputStream;
+import java.io.PrintWriter;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
+import java.util.Arrays;
 import java.util.List;
 
 public class ContactCRUD{
 
+
     Input input = new Input();
     FileReader contactReader = new FileReader("data", "contacts.txt", "contacts.log");
+//    PrintWriter writer = new PrintWriter((OutputStream) contactReader.getFilePath());
+//    PrintWriter deleteWriter = new PrintWriter((OutputStream) contactReader.getDeleteFilePath());
 
     public ContactCRUD() throws IOException {
     }
@@ -30,7 +41,40 @@ public class ContactCRUD{
         if(userChoice == 3){
             findContact();
         }
+        if(userChoice == 4){
+            deleteContact();
+        }
+        if(userChoice == 5){
+            System.out.println("Thank you!");
+        }
     }
+
+    public void deleteContact() throws IOException {
+        boolean nameExists = false;
+        System.out.println("Please enter the contact's first and last name:");
+        String userInput = input.getString().trim();
+        List<String> contacts = contactReader.getFileLines();
+        String[] userSeparated = userInput.split(" ");
+        for(String contact:contacts){
+            String[] separated = contact.split(" ");
+            if (userSeparated[0].equals(separated[0]) && userSeparated[1].equals(separated[1])) {
+                nameExists = true;
+            } else {
+                Files.write(contactReader.getDeleteFilePath(), Arrays.asList(contact), StandardOpenOption.APPEND);
+            }
+        }
+        if(!nameExists){
+            System.out.println("There is no contact by that name, please try again.");
+            deleteContact();
+        }
+        Files.delete(contactReader.getFilePath());
+        FileReader contactReader = new FileReader("data", "contacts.txt", "contacts.log");
+        List <String> newContacts = contactReader.getDeleteFileLines();
+        for(String contact:newContacts){
+                    Files.write(contactReader.getFilePath(), Arrays.asList(contact), StandardOpenOption.APPEND);
+                }
+
+        }
 
     public void displayAllContacts(){
         System.out.println("Name      |    Number");
@@ -45,7 +89,7 @@ public class ContactCRUD{
     public void findContact(){
         boolean nameExists = false;
         System.out.println("Please enter the contact's first and last name:");
-        String userInput = input.getString();
+        String userInput = input.getString().trim();
         List<String> contacts = contactReader.getFileLines();
         String[] userSeparated = userInput.split(" ");
         for(String contact:contacts){
