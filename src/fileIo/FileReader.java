@@ -16,7 +16,7 @@ public class FileReader {
     // read in the file and parse it
     protected String directoryName;   // i.e. 'data', 'src/fileIo', etc
     protected String fileName;        // i.e. 'day18.txt', 'jolts.txt', etc
-    protected String deleteFileName = "delete.txt";
+    protected String deleteFileName;
     protected String logFileName;     // will hold logging info
     protected Path directoryPath;     // Path representation for 'data', 'src/fileIo', etc
     protected Path filePath;          // Path representation for 'data/day18.txt', 'src/fileIo/jolts.txt', etc
@@ -28,9 +28,10 @@ public class FileReader {
 
 
     // Constructor
-    public FileReader(String directoryName, String fileName, String logFileName) throws IOException {
+    public FileReader(String directoryName, String fileName, String logFileName, String deleteFileName) throws IOException {
         this.directoryName = directoryName;
         this.fileName = fileName;
+        this.deleteFileName = deleteFileName;
         this.logFileName = logFileName;
         this.directoryPath = Paths.get(directoryName);
         this.filePath = Paths.get(directoryName, fileName);
@@ -84,7 +85,7 @@ public class FileReader {
 
     public static void main(String[] args) throws IOException {
 
-        FileReader contactReader = new FileReader("data", "contacts.txt", "contacts.log");
+        FileReader contactReader = new FileReader("data", "contacts.txt", "contacts.log", "delete.txt");
         System.out.println(contactReader.getFileLines());
 
     }
