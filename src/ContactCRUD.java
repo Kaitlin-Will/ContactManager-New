@@ -53,8 +53,8 @@ public class ContactCRUD{
             }
         }
         if(userChoice == 4){
-            deleteContact();
-            displayMenuOptions();
+                deleteContact();
+                displayMenuOptions();
         }
         if(userChoice == 5){
             System.out.println("Thank you!");
@@ -75,8 +75,15 @@ public class ContactCRUD{
             newList.add(contact);
             if (userSeparated[0].equals(separated[0]) && userSeparated[1].equals(separated[1])) {
                 nameExists = true;
-                newList.remove(contact);
-                continue;
+                System.out.println();
+                System.out.printf("Name: %s %s%nNumber: %s%n", separated[0], separated[1], separated[2]);
+                System.out.println();
+                boolean yesNo = input.yesNo("Are you sure you want to delete this contact?");
+                input.getString();
+                if(yesNo){
+                    newList.remove(contact);
+                    System.out.println("Contact has been deleted");
+                }
             }
         }
         if(!nameExists){
@@ -84,7 +91,7 @@ public class ContactCRUD{
             deleteContact();
         }
         Files.write(contactsPath, newList);
-        System.out.println("Contact has been deleted");
+        System.out.println(newList);
     }
 
     public void deleteContact(String first, String last) throws IOException {
@@ -103,21 +110,22 @@ public class ContactCRUD{
             }
         }
         Files.write(contactsPath, newList);
+
     }
 
     public void displayAllContacts() throws IOException {
         FileReader contactReader = new FileReader("data", "contacts.txt", "contacts.log", "delete.txt");
         String name = "Name";
         String number = "Number";
-        System.out.println("-----------------------------------");
-        System.out.printf("     %-13s|     %s%n", name, number);
-        System.out.println("-----------------------------------");
+        System.out.println("--------------------------------------");
+        System.out.printf("     %-18s|     %s%n", name, number);
+        System.out.println("--------------------------------------");
         List<String> contacts = contactReader.getFileLines();
         for(String contact:contacts){
             String[] separated = contact.split(" ");
             if(separated.length > 1){
                 String newName = separated[0] + " " + separated[1];
-                System.out.printf("%-18s|  %-20s%n", newName, separated[2]);
+                System.out.printf("%-23s|  %-20s%n", newName, separated[2]);
             }
         }
         System.out.println();
