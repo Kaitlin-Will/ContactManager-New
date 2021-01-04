@@ -15,7 +15,7 @@ public class Contact {
     protected String infoString;
 
     Input input = new Input();
-    FileReader contactReader = new FileReader("data", "contacts.txt", "contacts.log", "delete.txt");
+    FileReader contactReader = new FileReader("data", "contacts.txt", "contacts.log");
 
     //Constructor
     public Contact(String firstName, String lastName, String phoneNumber) throws IOException {

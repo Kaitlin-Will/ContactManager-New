@@ -11,8 +11,6 @@ public class ContactsApplication {
         System.out.println("Welcome to your own Contacts App!");
         thisCrud.displayMenuOptions();
 
-//        thisCrud.getPhoneNumber();
-
 
     }
 

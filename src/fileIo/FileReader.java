@@ -16,26 +16,21 @@ public class FileReader {
     // read in the file and parse it
     protected String directoryName;   // i.e. 'data', 'src/fileIo', etc
     protected String fileName;        // i.e. 'day18.txt', 'jolts.txt', etc
-    protected String deleteFileName;
     protected String logFileName;     // will hold logging info
     protected Path directoryPath;     // Path representation for 'data', 'src/fileIo', etc
     protected Path filePath;          // Path representation for 'data/day18.txt', 'src/fileIo/jolts.txt', etc
-    protected Path deleteFilePath;
-    protected List<String> deleteFileLines;
     protected List<String> fileLines; // A list to iterate through with each line of the file
     protected List<String> logLines;  // A String list to hold all of the logging messages
     protected Path logFilePath;       // Path representation of the logging file
 
 
     // Constructor
-    public FileReader(String directoryName, String fileName, String logFileName, String deleteFileName) throws IOException {
+    public FileReader(String directoryName, String fileName, String logFileName) throws IOException {
         this.directoryName = directoryName;
         this.fileName = fileName;
-        this.deleteFileName = deleteFileName;
         this.logFileName = logFileName;
         this.directoryPath = Paths.get(directoryName);
         this.filePath = Paths.get(directoryName, fileName);
-        this.deleteFilePath = Paths.get(directoryName, deleteFileName);
         this.logFilePath = Paths.get(directoryName, logFileName);
 
         // Create a logging file if it doesn't already exist
@@ -84,7 +79,7 @@ public class FileReader {
 
     public static void main(String[] args) throws IOException {
 
-        FileReader contactReader = new FileReader("data", "contacts.txt", "contacts.log", "delete.txt");
+        FileReader contactReader = new FileReader("data", "contacts.txt", "contacts.log");
         System.out.println(contactReader.getFileLines());
 
     }
@@ -113,10 +108,6 @@ public class FileReader {
         return fileName;
     }
 
-    public String getDeleteFileName() {
-        return deleteFileName;
-    }
-
     public void setFileName(String fileName) {
         this.fileName = fileName;
     }
@@ -141,20 +132,12 @@ public class FileReader {
         return filePath;
     }
 
-    public Path getDeleteFilePath() {
-        return deleteFilePath;
-    }
-
     public void setFilePath(Path filePath) {
         this.filePath = filePath;
     }
 
     public List<String> getFileLines() {
         return fileLines;
-    }
-
-    public List<String> getDeleteFileLines() {
-        return deleteFileLines;
     }
 
     public void setFileLines(List<String> fileLines) {
