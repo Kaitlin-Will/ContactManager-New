@@ -1,10 +1,16 @@
+import fileIo.FileReader;
 import util.Input;
 
 import java.io.IOException;
+import java.util.List;
 
-public class ContactCRUD {
+public class ContactCRUD{
 
     Input input = new Input();
+    FileReader contactReader = new FileReader("data", "contacts.txt", "contacts.log");
+
+    public ContactCRUD() throws IOException {
+    }
 
 
     public void displayMenuOptions() throws IOException {
@@ -15,8 +21,21 @@ public class ContactCRUD {
         System.out.println("5. Exit.");
         System.out.println("Enter an option: [1, 2, 3, 4, 5]");
         int userChoice = input.getInt();
+        if(userChoice == 1){
+            displayAllContacts();
+        }
         if(userChoice == 2){
             addContact();
+        }
+    }
+
+    public void displayAllContacts(){
+        System.out.println("Name      |    Number");
+        System.out.println("---------------------");
+        List<String> contacts = contactReader.getFileLines();
+        for(String contact:contacts){
+            String[] separated = contact.split(" ");
+            System.out.printf("%s %-5s| %-10s%n", separated[0], separated[1], separated[2]);
         }
     }
 
@@ -27,7 +46,7 @@ public class ContactCRUD {
             String userLast = input.getString("Enter last name");
             String userPhone = input.getString("Enter phone number");
             System.out.printf("First name: %s%nLast name: %s%nPhone number: %s%n", userFirst, userLast, userPhone);
-            boolean anotherResponse = input.yesNo("Is this information correct");
+            boolean anotherResponse = input.yesNo("Is this information correct?");
             if(anotherResponse){
                 Contact c = new Contact(userFirst, userLast, userPhone);
             }
