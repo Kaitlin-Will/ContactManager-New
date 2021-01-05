@@ -26,12 +26,7 @@ public class Contact {
         Files.write(contactReader.getFilePath(), Arrays.asList(this.infoString), StandardOpenOption.APPEND);
         }
 
-    //PSVM
-    public static void main(String[] args) throws IOException {
 
-    }
-
-    //Custom Methods
 
     //Getters and Setters
     public String getFirstName() {

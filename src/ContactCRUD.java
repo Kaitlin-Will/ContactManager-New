@@ -1,23 +1,16 @@
 import fileIo.FileReader;
 import util.Input;
-
-import java.io.File;
 import java.io.IOException;
-import java.io.OutputStream;
-import java.io.PrintWriter;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class ContactCRUD{
 
 
     Input input = new Input();
-    FileReader contactReader = new FileReader("data", "contacts.txt", "contacts.log");
 
     public ContactCRUD() throws IOException {
 
@@ -95,7 +88,6 @@ public class ContactCRUD{
 
     public void deleteContact(String first, String last) throws IOException {
         FileReader contactReader = new FileReader("data", "contacts.txt", "contacts.log");
-        boolean nameExists = false;
         Path contactsPath = Paths.get(contactReader.getDirectoryName(), contactReader.getFileName());
         List<String> contacts = contactReader.getFileLines();
         List<String> newList = new ArrayList<>();
@@ -103,7 +95,6 @@ public class ContactCRUD{
             String[] separated = contact.split(" ");
             newList.add(contact);
             if (first.equals(separated[0]) && last.equals(separated[1])) {
-                nameExists = true;
                 newList.remove(contact);
                 continue;
             }
